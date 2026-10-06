@@ -1,0 +1,363 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(html.dark, html.dark *));
+
+@theme {
+  /* ---- accents (identical in both themes) ---- */
+  --color-neo-black: #000;
+  --color-neo-white: #ffffff;
+  --color-neo-yellow: #ffe17c;
+  --color-neo-sage: #b7c6c2;
+
+  --color-accent-red: #ff5f57;
+  --color-accent-orange: #febc2e;
+  --color-accent-green: #28c840;
+
+  /* ---- type ---- */
+  --font-sans: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+  --font-cabinet: 'Cabinet Grotesk', 'Satoshi', sans-serif;
+
+  --animate-marquee: marquee 28s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes swing {
+  0%,
+  100% {
+    transform: rotate(-7deg);
+  }
+  50% {
+    transform: rotate(7deg);
+  }
+}
+
+/* ==================================================================
+   Section palette
+   Three bands drive the whole page, matching the reference exactly:
+
+     .bg-hero   yellow   -> burgundy   (hero)
+     .bg-band   charcoal -> deep navy  (stats, skills, work, contact, footer)
+     .bg-paper  white    -> slate      (about, experience, certificates)
+   ================================================================== */
+
+.bg-hero {
+  background-color: #ffe17c;
+}
+.bg-band {
+  background-color: #171e19;
+}
+.bg-paper {
+  background-color: #ffffff;
+}
+.bg-plate {
+  background-color: #ffe17c;
+}
+.bg-plate-alt {
+  background-color: #b7c6c2;
+}
+
+html.dark .bg-hero {
+  background-color: #4a1d1d;
+}
+html.dark .bg-band {
+  background-color: #020817;
+}
+html.dark .bg-paper {
+  background-color: #111827;
+}
+html.dark .bg-plate {
+  background-color: #4a1d1d;
+}
+html.dark .bg-plate-alt {
+  background-color: #1f2937;
+}
+
+/* Foreground pairs with the band colours above. */
+.on-hero {
+  color: #000;
+}
+.on-band {
+  color: #ffffff;
+}
+.on-paper {
+  color: #000;
+}
+/* Sits on a plate (yellow/sage), so it stays dark in light mode. */
+.on-plate {
+  color: #000;
+}
+
+html.dark .on-hero,
+html.dark .on-band,
+html.dark .on-paper,
+html.dark .on-plate {
+  color: #f8fafc;
+}
+
+html.dark .on-hero-force {
+  color: #000;
+}
+
+/* Borders pick up the band's contrast. */
+.edge {
+  border-color: #000;
+}
+.edge-invert {
+  border-color: #ffffff;
+}
+
+html.dark .edge {
+  border-color: rgb(255 255 255 / 0.28);
+}
+html.dark .edge-invert {
+  border-color: rgb(255 255 255 / 0.4);
+}
+
+/* ==================== neo-* utility aliases ====================
+   The component layer uses these names. They resolve to the reference's real
+   light/dark values so a single class works in both themes.
+   ============================================================ */
+
+.bg-neo-yellow {
+  background-color: #ffe17c;
+}
+.bg-neo-sage {
+  background-color: #b7c6c2;
+}
+.bg-neo-white {
+  background-color: #ffffff;
+}
+.bg-neo-charcoal {
+  background-color: #171e19;
+}
+.bg-neo-black {
+  background-color: #000;
+}
+
+html.dark .bg-neo-yellow {
+  background-color: #4a1d1d;
+}
+html.dark .bg-neo-sage {
+  background-color: #1f2937;
+}
+html.dark .bg-neo-white {
+  background-color: #111827;
+}
+html.dark .bg-neo-charcoal {
+  background-color: #020817;
+}
+
+/* In dark mode the black/white pair collapses to a single foreground colour.
+   Without this, `text-neo-black` stays literal black and vanishes. */
+html.dark .text-neo-black,
+html.dark .text-neo-white {
+  color: #f8fafc;
+}
+
+html.dark .border-neo-black,
+html.dark .border-neo-white {
+  border-color: rgb(255 255 255 / 0.4);
+}
+
+/* Yellow plate colour is unreadable as text on white, so accent text on the
+   light bands uses a deeper gold; on the dark bands it returns to amber. */
+.accent-ink {
+  color: #8a5f00;
+}
+
+html.dark .accent-ink {
+  color: #fbbf24;
+}
+
+/* ============================ base ============================ */
+@layer base {
+  * {
+    border-color: currentColor;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5rem;
+  }
+
+  /* smooth scrolling only when the visitor hasn't asked for reduced motion */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  body {
+    margin: 0;
+    background-color: #ffffff;
+    color: #000;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  section {
+    scroll-margin-top: 5rem;
+  }
+
+  ::selection {
+    background-color: var(--color-neo-yellow);
+    color: var(--color-neo-black);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-neo-yellow);
+    outline-offset: 3px;
+  }
+}
+
+html.dark body {
+  background-color: #020817;
+  color: #f8fafc;
+}
+
+html.dark ::selection {
+  background-color: #fbbf24;
+  color: #000;
+}
+
+/* ========================= utilities ========================= */
+@utility dot-pattern {
+  background-image: radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0);
+  background-size: 22px 22px;
+}
+
+@utility grid-pattern {
+  background-image:
+    linear-gradient(to right, currentColor 1px, transparent 1px),
+    linear-gradient(to bottom, currentColor 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Outlined display text: fill cleared, stroke keeps currentColor so the same
+   utility works on both the light bands and the dark bands. */
+@utility stroke-text {
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 2px currentColor;
+}
+
+/* The reference's accent heading on the yellow bands: the glyph keeps its fill
+   colour and picks up a 2px black outline. */
+@utility stroke-outline {
+  -webkit-text-stroke: 2px #000;
+}
+
+@utility shadow-hard {
+  box-shadow: 4px 4px 0 0 #000;
+}
+
+@utility shadow-hard-lg {
+  box-shadow: 8px 8px 0 0 #000;
+}
+
+/* Hero portrait slot: shows a monogram until public/me.jpg exists. */
+.photo-slot::before {
+  content: 'AJ';
+  display: grid;
+  place-items: center;
+  height: 100%;
+  font-family: var(--font-cabinet);
+  font-size: clamp(4rem, 12vw, 8rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: #171e19;
+  opacity: 0.18;
+}
+.photo-slot:has(img:not([style*='display: none']))::before {
+  content: none;
+}
+
+/* Contact form fields: solid fills with hard borders so the section's dot
+   pattern can never show through and wash out the text. */
+.field {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background-color: #ffffff;
+  border: 2px solid #000;
+  font-weight: 700;
+  outline: none;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.field::placeholder {
+  color: #9ca3af;
+  font-weight: 500;
+}
+.field:focus {
+  transform: translateY(-4px);
+  box-shadow: 4px 4px 0 0 #000;
+}
+
+/* room for the leading icon */
+.field-with-icon {
+  padding-left: 3rem;
+}
+
+html.dark .field {
+  background-color: #111827;
+  border-color: #f8fafc;
+  color: #f8fafc;
+}
+html.dark .field::placeholder {
+  color: #94a3b8;
+}
+html.dark .field:focus {
+  box-shadow: 4px 4px 0 0 #000;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: #eceff0;
+}
+::-webkit-scrollbar-thumb {
+  background: #171e19;
+  border: 3px solid #eceff0;
+}
+html.dark ::-webkit-scrollbar-track {
+  background: #020817;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+  border: 3px solid #020817;
+}
