@@ -30,11 +30,11 @@ function BrowserCard() {
 
         {/* body */}
         <div className="p-4">
-          <div className="photo-slot grid aspect-[4/3] place-items-center overflow-hidden border-2 border-black bg-[#f1f1f1]">
+          <div className="photo-slot overflow-hidden border-2 border-black bg-[#f1f1f1]">
             <img
               src={photo}
               alt={`${profile.name}, software developer`}
-              className="size-full object-cover"
+              className="w-full object-cover object-top"
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
               }}

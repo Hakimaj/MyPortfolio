@@ -287,7 +287,10 @@ html.dark ::selection {
   box-shadow: 8px 8px 0 0 #000;
 }
 
-/* Hero portrait slot: shows a monogram until public/me.jpg exists. */
+/* Hero portrait slot: shows a monogram until public/images/profile.jpg exists. */
+.photo-slot {
+  min-height: 320px;
+}
 .photo-slot::before {
   content: 'AJ';
   display: grid;

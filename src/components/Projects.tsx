@@ -9,12 +9,12 @@ import { SectionHeading } from './ui/SectionHeading'
 import { Reveal } from './ui/Reveal'
 
 const accentClass: Record<Project['accent'], string> = {
-  yellow: 'bg-neo-yellow dark:bg-[#4a1d1d]',
-  red: 'bg-accent-red',
-  sage: 'bg-neo-sage dark:bg-[#1f2937]',
-  orange: 'bg-accent-orange',
-  green: 'bg-accent-green',
-  white: 'bg-neo-white dark:bg-[#111827]',
+  yellow: 'bg-[#FFE566]',
+  red: 'bg-[#FF6B6B]',
+  sage: 'bg-[#7EC8A4]',
+  orange: 'bg-[#FF9F43]',
+  green: 'bg-[#4CD97B]',
+  white: 'bg-[#E8E8E8]',
 }
 
 export function Projects() {
@@ -79,21 +79,25 @@ export function Projects() {
             >
               {/* accent header */}
               <div
-                className={`relative flex h-40 items-end justify-between overflow-hidden border-b-2 border-neo-white p-5 ${accentClass[p.accent]}`}
+                className={`relative flex h-48 flex-col justify-between overflow-hidden border-b-2 border-neo-white ${accentClass[p.accent]}`}
               >
-                {p.image && (
+                {p.image ? (
                   <img
                     src={p.image}
                     alt={p.title}
-                    className="absolute inset-0 size-full object-cover opacity-40 transition-opacity duration-300 group-hover:opacity-60"
+                    className="absolute inset-0 size-full object-cover"
                     onError={(e) => { e.currentTarget.style.display = 'none' }}
                   />
-                )}
-                <span className="relative font-cabinet text-5xl font-black tracking-tighter text-black opacity-30 md:text-6xl">
+                ) : null}
+                {/* always-visible overlay so number + badge stay readable over any image */}
+                <div className="absolute inset-0 bg-black/30" />
+                <span className="relative p-5 font-cabinet text-5xl font-black tracking-tighter text-white opacity-70 md:text-6xl">
                   0{i + 1}
                 </span>
-                <span className="relative border-2 border-neo-black bg-neo-white px-2.5 py-1 text-[10px] font-black tracking-widest uppercase text-black">
-                  {p.category}
+                <span className="relative self-end p-5">
+                  <span className="border-2 border-white bg-black/60 px-2.5 py-1 text-[10px] font-black tracking-widest uppercase text-white">
+                    {p.category}
+                  </span>
                 </span>
               </div>
 
